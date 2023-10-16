@@ -1,3 +1,21 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals"],
+  "plugins": ["@typescript-eslint", "prettier", "simple-import-sort", "import"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "tabWidth": 2,
+        "semi": false,
+        "singleQuote": true,
+        "printWidth": 80
+      }
+    ],
+    "simple-import-sort/imports": "error",
+		"simple-import-sort/exports": "error",
+		"import/first": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		"@typescript-eslint/consistent-type-imports": "error"
+  }
 }
