@@ -7,12 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir src",
-    "format":"next lint --fix --dir src"
+    "format": "next lint --fix --dir src"
   },
   "dependencies": {
     "next": "13.5.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-icons": "^4.11.0"
   },
   "devDependencies": {
     "@types/node": "^20",
