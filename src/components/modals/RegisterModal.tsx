@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { signIn } from 'next-auth/react'
 import React, { useCallback, useState } from 'react'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
@@ -28,10 +29,27 @@ const RegisterModal = () => {
     async (data) => {
       setIsLoading(true)
       try {
-        const response = await fetch('/api/register', {
+        const response = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
+        })
+
+        if (!response.ok) {
+          const error = await response.json()
+          if (error.message === 'Email is taken')
+            setError('email', { type: 'manual', message: error.message })
+
+          return
+        }
+
+        toast.success('Account created.')
+
+        await signIn('credentials', {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+          callbackUrl: '/',
         })
 
         registerModal.onClose()
@@ -42,7 +60,7 @@ const RegisterModal = () => {
         setIsLoading(false)
       }
     },
-    [registerModal, reset],
+    [registerModal, setError, reset],
   )
 
   const bodyContent = (
