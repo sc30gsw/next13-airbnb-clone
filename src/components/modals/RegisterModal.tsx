@@ -20,11 +20,7 @@ const RegisterModal = () => {
   const registerModal = useRegisterModal()
   const [isLoading, setIsLoading] = useState(false)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterForm>({
+  const { handleSubmit, control, reset, setError } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
   })
 
@@ -39,13 +35,14 @@ const RegisterModal = () => {
         })
 
         registerModal.onClose()
+        reset()
       } catch (err) {
         toast.error('Something Went Wrong.')
       } finally {
         setIsLoading(false)
       }
     },
-    [registerModal],
+    [registerModal, reset],
   )
 
   const bodyContent = (
@@ -53,29 +50,29 @@ const RegisterModal = () => {
       <Heading title="Welcome to Airbnb" subtitle="Create an account" />
       <Input
         id="email"
+        name="email"
         label="Email"
         type="email"
+        control={control}
         disabled={isLoading}
-        register={register}
-        errors={errors}
         required
       />
       <Input
         id="name"
+        name="name"
         label="Name"
         type="text"
+        control={control}
         disabled={isLoading}
-        register={register}
-        errors={errors}
         required
       />
       <Input
         id="password"
+        name="password"
         label="Password"
         type="password"
+        control={control}
         disabled={isLoading}
-        register={register}
-        errors={errors}
         required
       />
     </div>
