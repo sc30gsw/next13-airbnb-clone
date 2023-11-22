@@ -23,6 +23,11 @@ const RegisterModal = () => {
 
   const { handleSubmit, control, reset, setError } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
   })
 
   const onSubmit: SubmitHandler<RegisterForm> = useCallback(
