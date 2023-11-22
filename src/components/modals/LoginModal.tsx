@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import React, { useCallback, useState } from 'react'
 import type { SubmitHandler } from 'react-hook-form'
@@ -13,51 +14,35 @@ import Button from '@/components/Button'
 import Heading from '@/components/Heading'
 import Input from '@/components/inputs/Input'
 import Modal from '@/components/modals/Modal'
-import useRegisterModal from '@/hooks/useRegisterModal'
-import type { RegisterForm } from '@/types/RegisterForm'
-import { registerSchema } from '@/types/RegisterForm'
+import userLoginModal from '@/hooks/useLoginModal'
+import { type LoginForm, loginSchema } from '@/types/LoginForm'
 
-const RegisterModal = () => {
-  const registerModal = useRegisterModal()
+const LoginModal = () => {
+  const router = useRouter()
+  const LoginModal = userLoginModal()
   const [isLoading, setIsLoading] = useState(false)
 
-  const { handleSubmit, control, reset, setError } = useForm<RegisterForm>({
-    resolver: zodResolver(registerSchema),
+  const { handleSubmit, control, reset } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: '',
     },
   })
 
-  const onSubmit: SubmitHandler<RegisterForm> = useCallback(
+  const onSubmit: SubmitHandler<LoginForm> = useCallback(
     async (data) => {
       setIsLoading(true)
       try {
-        const response = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        })
-
-        if (!response.ok) {
-          const error = await response.json()
-          if (error.message === 'Email is taken')
-            setError('email', { type: 'manual', message: error.message })
-
-          return
-        }
-
-        toast.success('Account created.')
-
         await signIn('credentials', {
-          email: data.email,
-          password: data.password,
+          ...data,
           redirect: false,
           callbackUrl: '/',
         })
 
-        registerModal.onClose()
+        toast.success('Logged in.')
+        router.refresh()
+        LoginModal.onClose()
         reset()
       } catch (err) {
         toast.error('Something Went Wrong.')
@@ -65,26 +50,17 @@ const RegisterModal = () => {
         setIsLoading(false)
       }
     },
-    [registerModal, setError, reset],
+    [LoginModal, reset, router],
   )
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to Airbnb" subtitle="Create an account" />
+      <Heading title="Welcome back" subtitle="Login to your account" />
       <Input
         id="email"
         name="email"
         label="Email"
         type="email"
-        control={control}
-        disabled={isLoading}
-        required
-      />
-      <Input
-        id="name"
-        name="name"
-        label="Name"
-        type="text"
         control={control}
         disabled={isLoading}
         required
@@ -121,7 +97,7 @@ const RegisterModal = () => {
           <div>Already have an account</div>
           <button
             className="text-neutral-800 cursor-pointer hover:underline"
-            onClick={registerModal.onClose}
+            onClick={LoginModal.onClose}
           >
             Log in
           </button>
@@ -133,10 +109,10 @@ const RegisterModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title="Register"
+      isOpen={LoginModal.isOpen}
+      title="Login"
       actionLabel="Continue"
-      onClose={registerModal.onClose}
+      onClose={LoginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -144,4 +120,4 @@ const RegisterModal = () => {
   )
 }
 
-export default RegisterModal
+export default LoginModal

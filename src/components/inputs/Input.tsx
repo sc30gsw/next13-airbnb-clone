@@ -1,10 +1,12 @@
 'use client'
 
 import React from 'react'
-import type { FieldErrors, UseFormRegister } from 'react-hook-form'
+import {
+  type FieldValues,
+  useController,
+  type UseControllerProps,
+} from 'react-hook-form'
 import { BiDollar } from 'react-icons/bi'
-
-import type { RegisterForm } from '@/types/RegisterForm'
 
 type InputProps = {
   id: string
@@ -13,20 +15,23 @@ type InputProps = {
   disabled?: boolean
   formatPrice?: boolean
   required?: boolean
-  register: UseFormRegister<RegisterForm>
-  errors: FieldErrors
 }
 
-const Input: React.FC<InputProps> = ({
-  id,
+type ExtendInputProps<T extends FieldValues> = UseControllerProps<T> &
+  InputProps
+
+const Input = <T extends FieldValues>({
+  name,
   label,
   type,
+  control,
   disabled,
   formatPrice,
-  required,
-  register,
-  errors,
-}) => {
+  rules,
+}: ExtendInputProps<T>) => {
+  const { field, fieldState } = useController<T>({ name, control, rules })
+  const { error } = fieldState
+
   return (
     <div className="w-full relative">
       {formatPrice && (
@@ -36,29 +41,26 @@ const Input: React.FC<InputProps> = ({
         />
       )}
       <input
-        id={id}
+        {...field}
         type={type}
         disabled={disabled}
-        {...register(id as 'name' | 'email' | 'password', { required })}
         placeholder=" "
         className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed ${
           formatPrice ? 'pl-9' : 'pl-4'
-        } ${errors[id] ? 'border-rose-500' : 'border-neutral-300'} ${
-          errors[id] ? 'focus:border-rose-500' : 'focus:border-black'
+        } ${error ? 'border-rose-500' : 'border-neutral-300'} ${
+          error ? 'focus:border-rose-500' : 'focus:border-black'
         }`}
       />
       <label
         className={`absolute font-medium duration-150 transform -translate-y-3 top-5 z-10 origin-[0] ${
           formatPrice ? 'left-9' : 'left-4'
         } peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 ${
-          errors[id] ? 'text-rose-500' : 'text-zinc-400'
+          error ? 'text-rose-500' : 'text-zinc-400'
         }`}
       >
         {label}
       </label>
-      {errors[id] && (
-        <span className="text-red-500">{errors[id]?.message as string}</span>
-      )}
+      {error && <span className="text-red-500">{error.message}</span>}
     </div>
   )
 }
