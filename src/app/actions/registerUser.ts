@@ -1,7 +1,6 @@
 'use server'
 
 import bcrypt from 'bcrypt'
-import { revalidateTag } from 'next/cache'
 
 import prisma from '@/libs/prismadb'
 import type { RegisterForm } from '@/types/RegisterForm'
@@ -26,7 +25,6 @@ const registerUser = async (data: RegisterForm) => {
       },
     })
 
-    revalidateTag('layout')
     return { user }
   } catch (err) {
     return { error: 'Internal Server Error' }
