@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Container from '@/components/Container'
+import Categories from '@/components/navbar/Categories'
 import Logo from '@/components/navbar/Logo'
 import Search from '@/components/navbar/Search'
 import UserMenu from '@/components/navbar/UserMenu'
@@ -22,6 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           </div>
         </Container>
       </div>
+      <Categories />
     </div>
   )
 }
