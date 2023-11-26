@@ -15,12 +15,14 @@ import Button from '@/components/Button'
 import Heading from '@/components/Heading'
 import Input from '@/components/inputs/Input'
 import Modal from '@/components/modals/Modal'
+import useLoginModal from '@/hooks/useLoginModal'
 import useRegisterModal from '@/hooks/useRegisterModal'
 import type { RegisterForm } from '@/types/RegisterForm'
 import { registerSchema } from '@/types/RegisterForm'
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal()
+  const loginModal = useLoginModal()
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -121,7 +123,10 @@ const RegisterModal = () => {
           <div>Already have an account</div>
           <button
             className="text-neutral-800 cursor-pointer hover:underline"
-            onClick={registerModal.onClose}
+            onClick={() => {
+              registerModal.onClose()
+              loginModal.onOpen()
+            }}
           >
             Log in
           </button>

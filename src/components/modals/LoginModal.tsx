@@ -14,12 +14,14 @@ import Button from '@/components/Button'
 import Heading from '@/components/Heading'
 import Input from '@/components/inputs/Input'
 import Modal from '@/components/modals/Modal'
-import userLoginModal from '@/hooks/useLoginModal'
+import useLoginModal from '@/hooks/useLoginModal'
+import useRegisterModal from '@/hooks/useRegisterModal'
 import { type LoginForm, loginSchema } from '@/types/LoginForm'
 
 const LoginModal = () => {
   const router = useRouter()
-  const LoginModal = userLoginModal()
+  const LoginModal = useLoginModal()
+  const registerModal = useRegisterModal()
   const [isLoading, setIsLoading] = useState(false)
 
   const { handleSubmit, control, reset } = useForm<LoginForm>({
@@ -94,12 +96,15 @@ const LoginModal = () => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row justify-center items-center gap-2">
-          <div>Already have an account</div>
+          <div>First time using Airbnb?</div>
           <button
             className="text-neutral-800 cursor-pointer hover:underline"
-            onClick={LoginModal.onClose}
+            onClick={() => {
+              LoginModal.onClose()
+              registerModal.onOpen()
+            }}
           >
-            Log in
+            Create an account
           </button>
         </div>
       </div>
