@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import React, { useCallback, useMemo } from 'react'
 
 import Button from '@/components/Button'
-import HeaderButton from '@/components/HeaderButton'
+import HeartButton from '@/components/HeartButton'
 import useCountries from '@/hooks/useCountries'
 import type { SafeUser } from '@/types/SafeUser'
 
@@ -75,7 +75,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             className="object-cover h-full w-full group-hover:scale-110 transition"
           />
           <div className="absolute top-3 right-3">
-            <HeaderButton listingId={data.id} currentUser={currentUser} />
+            <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
         <div className="font-semibold text-lg">
