@@ -222,6 +222,9 @@ const RentModal = () => {
             title="Add a photo of your place"
             subtitle="Show guests what your place looks like!"
           />
+          {errors.imageSrc && (
+            <span className="text-red-500">{errors.imageSrc.message}</span>
+          )}
           <ImageUpload
             value={imageSrc}
             onChange={(value) => setCustomValue('imageSrc', value)}

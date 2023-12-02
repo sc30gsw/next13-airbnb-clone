@@ -23,7 +23,7 @@ export const listingSchema = z.object({
   roomCount: z.number().min(1, 'The number must be greater than 0'),
   bathroomCount: z.number(),
   price: z.number().min(1, 'The number must be greater than 0'),
-  imageSrc: z.string(),
+  imageSrc: z.string().min(1, 'image is required').max(224, 'please enter at'),
 })
 
 export type ListingForm = z.infer<typeof listingSchema>
