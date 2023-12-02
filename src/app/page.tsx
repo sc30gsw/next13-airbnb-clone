@@ -1,4 +1,3 @@
-import type { Listing } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 
 import Container from '@/components/Container'
