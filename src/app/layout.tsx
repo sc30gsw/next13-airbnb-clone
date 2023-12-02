@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth'
 import ToasterProvider from '@/app/providers/ToasterProvider'
 import LoginModal from '@/components/modals/LoginModal'
 import RegisterModal from '@/components/modals/RegisterModal'
+import RentModal from '@/components/modals/RentModal'
 import Navbar from '@/components/navbar/Navbar'
 import useFetchCurrentUser from '@/hooks/useFetchCurrentUser'
 import authOptions from '@/libs/authOptions'
@@ -32,6 +33,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <RegisterModal />
         <LoginModal />
+        <RentModal />
         <Navbar currentUser={currentUser} />
         {children}
       </body>

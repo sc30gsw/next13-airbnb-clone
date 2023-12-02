@@ -32,6 +32,15 @@ const Input = <T extends FieldValues>({
   const { field, fieldState } = useController<T>({ name, control, rules })
   const { error } = fieldState
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === 'number') {
+      // 入力値を数値に変換
+      field.onChange(e.target.valueAsNumber)
+    } else {
+      field.onChange(e.target.value)
+    }
+  }
+
   return (
     <div className="w-full relative">
       {formatPrice && (
@@ -42,6 +51,7 @@ const Input = <T extends FieldValues>({
       )}
       <input
         {...field}
+        onChange={onChange}
         type={type}
         disabled={disabled}
         placeholder=" "
