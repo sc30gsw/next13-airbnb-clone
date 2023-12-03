@@ -2,27 +2,24 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import prisma from '@/libs/prismadb'
 
-type FavoritesListingParams = {
+type TParams = {
   params: { listingId: string }
 }
 
-export const POST = async (
-  req: NextRequest,
-  { params }: FavoritesListingParams,
-) => {
+export const POST = async (req: NextRequest, { params }: TParams) => {
   try {
     if (req.method !== 'POST')
-      return NextResponse.json({ message: 'Bad Request', status: 405 })
+      return NextResponse.json({ message: 'Bad Request' }, { status: 405 })
 
     const { userId } = await req.json()
 
     if (!userId || !params.listingId)
-      return NextResponse.json({ message: 'Invalid ID', status: 400 })
+      return NextResponse.json({ message: 'Invalid ID' }, { status: 400 })
 
     const currentUser = await prisma.user.findUnique({ where: { id: userId } })
 
     if (!currentUser)
-      return NextResponse.json({ message: 'Not signed in', status: 403 })
+      return NextResponse.json({ message: 'Not signed in' }, { status: 403 })
 
     let favoriteIds = [...(currentUser.favoriteIds || [])]
 
@@ -35,27 +32,27 @@ export const POST = async (
 
     return NextResponse.json(user, { status: 200 })
   } catch (err) {
-    return NextResponse.json({ message: 'Internal Server Error', status: 500 })
+    return NextResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 },
+    )
   }
 }
 
-export const DELETE = async (
-  req: NextRequest,
-  { params }: FavoritesListingParams,
-) => {
+export const DELETE = async (req: NextRequest, { params }: TParams) => {
   try {
     if (req.method !== 'DELETE')
-      return NextResponse.json({ message: 'Bad Request', status: 405 })
+      return NextResponse.json({ message: 'Bad Request' }, { status: 405 })
 
     const { userId } = await req.json()
 
     if (!userId || !params.listingId)
-      return NextResponse.json({ message: 'Invalid ID', status: 400 })
+      return NextResponse.json({ message: 'Invalid ID' }, { status: 400 })
 
     const currentUser = await prisma.user.findUnique({ where: { id: userId } })
 
     if (!currentUser)
-      return NextResponse.json({ message: 'Not signed in', status: 403 })
+      return NextResponse.json({ message: 'Not signed in' }, { status: 403 })
 
     let favoriteIds = [...(currentUser.favoriteIds || [])]
 
@@ -68,6 +65,9 @@ export const DELETE = async (
 
     return NextResponse.json(user, { status: 200 })
   } catch (err) {
-    return NextResponse.json({ message: 'Internal Server Error', status: 500 })
+    return NextResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 },
+    )
   }
 }

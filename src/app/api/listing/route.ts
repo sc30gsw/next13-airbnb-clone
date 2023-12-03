@@ -11,6 +11,9 @@ export const GET = async (req: NextRequest) => {
 
     return NextResponse.json(listings, { status: 200 })
   } catch (err) {
-    return NextResponse.json({ message: 'Internal Server Error', status: 500 })
+    return NextResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 },
+    )
   }
 }
