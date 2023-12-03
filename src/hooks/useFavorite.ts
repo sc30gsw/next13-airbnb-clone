@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 
 import useLoginModal from '@/hooks/useLoginModal'
@@ -13,14 +13,12 @@ type TUseFavorite = {
 const useFavorite = ({ listingId, currentUser }: TUseFavorite) => {
   const router = useRouter()
   const loginModal = useLoginModal()
+  const [favorited, setFavorited] = useState(false)
 
-  const hasFavorited = useMemo(() => {
+  useEffect(() => {
     const list = currentUser?.favoriteIds || []
-
-    return list.includes(listingId)
+    setFavorited(list.includes(listingId))
   }, [currentUser?.favoriteIds, listingId])
-
-  const [favorited, setFavorited] = useState(hasFavorited)
 
   const toggleFavorite = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -40,10 +38,9 @@ const useFavorite = ({ listingId, currentUser }: TUseFavorite) => {
 
           if (!response.ok) {
             setFavorited(!favorited)
+            router.refresh()
             return
           }
-
-          const res = await response.json()
         } else {
           const response = await fetch(`/api/favorites/${listingId}`, {
             headers: { 'Content-Type': 'application/json' },
@@ -51,7 +48,11 @@ const useFavorite = ({ listingId, currentUser }: TUseFavorite) => {
             body: JSON.stringify({ userId: currentUser.id }),
           })
 
-          const res = await response.json()
+          if (!response.ok) {
+            setFavorited(!favorited)
+            router.refresh()
+            return
+          }
         }
 
         router.refresh()
@@ -59,6 +60,7 @@ const useFavorite = ({ listingId, currentUser }: TUseFavorite) => {
       } catch (err) {
         console.log(err)
         setFavorited(!favorited)
+        router.refresh()
         toast.error('Something went wrong')
       }
     },
