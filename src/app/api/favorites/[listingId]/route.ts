@@ -15,7 +15,6 @@ export const POST = async (
       return NextResponse.json({ message: 'Bad Request', status: 405 })
 
     const { userId } = await req.json()
-    console.log('🚀 ~ file: route.ts:18 ~ userId:', userId, params.listingId)
 
     if (!userId || !params.listingId)
       return NextResponse.json({ message: 'Invalid ID', status: 400 })
