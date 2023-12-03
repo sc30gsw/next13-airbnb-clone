@@ -20,8 +20,9 @@ import { TbBeach, TbMountain, TbPool } from 'react-icons/tb'
 
 import CategoryBox from '@/components/CategoryBox'
 import Container from '@/components/Container'
+import type { Category } from '@/types/Category'
 
-export const categories = [
+export const categories: Category[] = [
   {
     label: 'Beach',
     icon: <TbBeach size={26} />,
