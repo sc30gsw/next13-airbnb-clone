@@ -105,7 +105,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   return (
     <Container>
-      <div className="max-w-screen-xl mx-auto">
+      <div className="mx-auto max-w-screen-xl">
         <div className="flex flex-col gap-6">
           <ListingHead
             id={listing.id}
@@ -114,7 +114,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
             locationValue={listing.locationValue}
             currentUser={currentUser}
           />
-          <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-7 md:gap-10">
             <ListingInfo
               user={listing.user}
               category={category}

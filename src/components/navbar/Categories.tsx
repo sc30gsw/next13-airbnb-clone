@@ -110,7 +110,7 @@ const Categories = () => {
   if (!isMiniPage) return null
   return (
     <Container>
-      <div className="pt-4 flex flex-row items-center justify-between overflow-x-auto">
+      <div className="flex flex-row items-center justify-between overflow-x-auto pt-4">
         {categories.map((item) => (
           <CategoryBox
             key={item.label}
