@@ -1,4 +1,4 @@
-import type { Listing } from '@prisma/client'
+import type { Listing, Reservation } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -6,6 +6,7 @@ import EmptyState from '@/components/EmptyState'
 import ListingClient from '@/components/listings/ListingClient'
 import useFetchCurrentUser from '@/hooks/useFetchCurrentUser'
 import useFetchListing from '@/hooks/useFetchListing'
+import useFetchReservations from '@/hooks/useFetchReservations'
 import authOptions from '@/libs/authOptions'
 
 type ListingPageParams = {
@@ -24,13 +25,20 @@ export const generateStaticParams = async () => {
 
 const ListingPage: React.FC<ListingPageParams> = async ({ params }) => {
   const listing = await useFetchListing(params.listingId)
+  const reservations = await useFetchReservations({ params })
 
   const session = await getServerSession(authOptions)
   const currentUser = await useFetchCurrentUser(session?.user?.id || '')
 
   if (!listing) return <EmptyState />
 
-  return <ListingClient listing={listing} currentUser={currentUser} />
+  return (
+    <ListingClient
+      listing={listing}
+      reservations={reservations}
+      currentUser={currentUser}
+    />
+  )
 }
 
 export default ListingPage
