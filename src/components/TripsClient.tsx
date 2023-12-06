@@ -1,13 +1,12 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
-import toast from 'react-hot-toast'
+import React from 'react'
 
 import deleteReservation from '@/app/actions/deleteReservation'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
 import ListingCard from '@/components/listings/ListingCard'
+import useOnCancel from '@/hooks/useOnCancel'
 import type { ReservationWithListing } from '@/types/ReservationWithListing'
 import type { SafeUser } from '@/types/SafeUser'
 
@@ -20,27 +19,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
   reservations,
   currentUser,
 }) => {
-  const router = useRouter()
-  const [deletingId, setDeletingId] = useState('')
-
-  const onCancel = useCallback(
-    async (id: string) => {
-      setDeletingId(id)
-
-      try {
-        await deleteReservation({
-          params: { reservationId: id, userId: currentUser?.id as string },
-        })
-        toast.success('Reservation cancelled')
-        router.refresh()
-      } catch (err) {
-        toast.error('Something Went Wrong')
-      } finally {
-        setDeletingId('')
-      }
-    },
-    [currentUser?.id, router],
-  )
+  const { deletingId, onCancel } = useOnCancel(deleteReservation, currentUser)
 
   return (
     <Container>
