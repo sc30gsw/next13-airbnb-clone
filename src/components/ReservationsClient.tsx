@@ -1,13 +1,12 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 
 import deleteReservation from '@/app/actions/deleteReservation'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
 import ListingCard from '@/components/listings/ListingCard'
-import useOnCancel from '@/hooks/useOnCancel'
+import useOnDelete from '@/hooks/useOnDelete'
 import type { ReservationWithListing } from '@/types/ReservationWithListing'
 import type { SafeUser } from '@/types/SafeUser'
 
@@ -20,7 +19,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
   reservations,
   currentUser,
 }) => {
-  const { deletingId, onCancel } = useOnCancel(deleteReservation, currentUser)
+  const { deletingId, onDelete } = useOnDelete(deleteReservation, currentUser)
 
   return (
     <Container>
@@ -32,7 +31,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
             data={reservation.listing}
             reservation={reservation}
             actionId={reservation.id}
-            onAction={onCancel}
+            onAction={onDelete}
             disabled={deletingId === reservation.id}
             actionLabel="Cancel guest reservation"
             currentUser={currentUser}
