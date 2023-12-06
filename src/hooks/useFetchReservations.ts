@@ -11,7 +11,6 @@ const useFetchReservations = async ({ params }: TParams) => {
     const queryParams = new URLSearchParams()
 
     if (params.listingId) queryParams.append('listingId', params.listingId)
-
     if (params.userId) queryParams.append('userId', params.userId)
     if (params.authorId) queryParams.append('authorId', params.authorId)
 
