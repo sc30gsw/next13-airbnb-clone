@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import prisma from '@/libs/prismadb'
-import type { ListingsParams } from '@/types/ListngsParams'
 
 export const GET = async (req: NextRequest) => {
   try {
