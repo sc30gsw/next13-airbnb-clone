@@ -6,9 +6,14 @@ import ListingCard from '@/components/listings/ListingCard'
 import useFetchCurrentUser from '@/hooks/useFetchCurrentUser'
 import useFetchListings from '@/hooks/useFetchListings'
 import authOptions from '@/libs/authOptions'
+import type { ListingsParams } from '@/types/ListngsParams'
 
-const Home = async () => {
-  const listings = await useFetchListings()
+type HomeProps = {
+  searchParams: ListingsParams
+}
+
+const Home: React.FC<HomeProps> = async ({ searchParams }) => {
+  const listings = await useFetchListings(searchParams)
 
   const session = await getServerSession(authOptions)
   const currentUser = await useFetchCurrentUser(session?.user?.id || '')

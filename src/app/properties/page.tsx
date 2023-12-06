@@ -10,7 +10,7 @@ import authOptions from '@/libs/authOptions'
 const PropertiesPage = async () => {
   const session = await getServerSession(authOptions)
   const currentUser = await useFetchCurrentUser(session?.user?.id || '')
-  const listings = await useFetchListings(currentUser?.id)
+  const listings = await useFetchListings({ userId: currentUser?.id })
 
   if (!currentUser)
     return <EmptyState title="Unauthorized" subtitle="Please login" />
