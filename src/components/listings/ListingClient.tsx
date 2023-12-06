@@ -57,7 +57,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     try {
       setIsLoading(true)
 
-      const response = await createReservation({
+      await createReservation({
         listingId: listing.id,
         totalPrice,
         startDate: dateRange.startDate,
@@ -67,6 +67,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
       toast.success('Listing reserved!')
       setDateRange(initialDateRange)
+      router.push('/trips')
       router.refresh()
     } catch (err) {
       toast.error('Something Went Wrong')
