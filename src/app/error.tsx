@@ -13,9 +13,9 @@ const Error: React.FC<ErrorProps> = ({ error, reset }) => {
   }, [error])
 
   return (
-    <div className="flex flex-col justify-center items-center mt-20">
-      <h1 className="text-3xl mb-4">Something went wrong</h1>
-      <button className="text-rose-500 font-semibold" onClick={() => reset()}>
+    <div className="mt-20 flex flex-col items-center justify-center">
+      <h1 className="mb-4 text-3xl">Something went wrong</h1>
+      <button className="font-semibold text-rose-500" onClick={() => reset()}>
         Try again
       </button>
     </div>

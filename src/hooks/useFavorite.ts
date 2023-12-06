@@ -58,7 +58,6 @@ const useFavorite = ({ listingId, currentUser }: TUseFavorite) => {
         router.refresh()
         toast.success('Success')
       } catch (err) {
-        console.log(err)
         setFavorited(!favorited)
         router.refresh()
         toast.error('Something went wrong')

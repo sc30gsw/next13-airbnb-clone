@@ -23,7 +23,7 @@ const ListingCategory: React.FC<ListingCategoryProps> = ({
         {Icon}
         <div className="flex flex-col">
           <div className="text-lg font-semibold">{label}</div>
-          <div className="text-neutral-500 font-light">{description}</div>
+          <div className="font-light text-neutral-500">{description}</div>
         </div>
       </div>
     </div>
