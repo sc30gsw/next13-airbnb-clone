@@ -1,4 +1,3 @@
-import type { Reservation } from '@prisma/client'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -11,7 +10,7 @@ import authOptions from '@/libs/authOptions'
 const TripsPage = async () => {
   const session = await getServerSession(authOptions)
   const currentUser = await useFetchCurrentUser(session?.user?.id || '')
-  const reservations: Reservation[] = await useFetchReservations({
+  const reservations = await useFetchReservations({
     params: { userId: currentUser?.id },
   })
 
