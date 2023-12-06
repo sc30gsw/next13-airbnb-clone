@@ -20,8 +20,9 @@ import { TbBeach, TbMountain, TbPool } from 'react-icons/tb'
 
 import CategoryBox from '@/components/CategoryBox'
 import Container from '@/components/Container'
+import type { Category } from '@/types/Category'
 
-export const categories = [
+export const categories: Category[] = [
   {
     label: 'Beach',
     icon: <TbBeach size={26} />,
@@ -109,7 +110,7 @@ const Categories = () => {
   if (!isMiniPage) return null
   return (
     <Container>
-      <div className="pt-4 flex flex-row items-center justify-between overflow-x-auto">
+      <div className="flex flex-row items-center justify-between overflow-x-auto pt-4">
         {categories.map((item) => (
           <CategoryBox
             key={item.label}
