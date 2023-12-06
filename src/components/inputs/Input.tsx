@@ -62,9 +62,9 @@ const Input = <T extends FieldValues>({
         }`}
       />
       <label
-        className={`absolute top-5 z-10 origin-[0] -translate-y-3 font-medium duration-150${
+        className={`absolute left-4 top-3 z-10 origin-[0] -translate-y-3 font-medium transition-all duration-200 ease-in-out ${
           formatPrice ? 'left-9' : 'left-4'
-        } peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 ${
+        } peer-placeholder-shown:translate-y-2 peer-placeholder-shown:scale-100 peer-focus:-translate-y-0 peer-focus:scale-75 ${
           error ? 'text-rose-500' : 'text-zinc-400'
         }`}
       >
