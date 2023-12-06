@@ -3,17 +3,17 @@
 import prisma from '@/libs/prismadb'
 
 type TParams = {
-  params: { reservationId: string; userId: string }
+  params: { id: string; userId: string }
 }
 
 const deleteReservation = async ({ params }: TParams) => {
   try {
-    if (!params.reservationId || !params.userId) throw new Error('Invalid ID')
+    if (!params.id || !params.userId) throw new Error('Invalid ID')
 
     // 該当のreservationIdかつ予約したユーザー自身である場合に削除
     const reservation = await prisma.reservation.delete({
       where: {
-        id: params.reservationId,
+        id: params.id,
         OR: [{ userId: params.userId }, { listing: { userId: params.userId } }],
       },
     })

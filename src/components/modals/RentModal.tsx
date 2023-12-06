@@ -191,6 +191,15 @@ const RentModal = () => {
             title="Share some basics about your place"
             subtitle="What amenities do you have?"
           />
+          {errors.guestCount && (
+            <span className="text-red-500">{errors.guestCount.message}</span>
+          )}
+          {errors.roomCount && (
+            <span className="text-red-500">{errors.roomCount.message}</span>
+          )}
+          {errors.bathroomCount && (
+            <span className="text-red-500">{errors.bathroomCount.message}</span>
+          )}
           <Counter
             title="Guests"
             subtitle="How many guests do you Allow?"
