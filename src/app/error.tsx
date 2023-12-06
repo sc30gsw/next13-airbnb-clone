@@ -1,25 +1,17 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
-type ErrorProps = {
+import EmptyState from '@/components/EmptyState'
+
+interface ErrorStateProps {
   error: Error
-  reset: () => void
 }
 
-const Error: React.FC<ErrorProps> = ({ error, reset }) => {
-  useEffect(() => {
-    console.log('Error: ', error)
-  }, [error])
+const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
+  useEffect(() => console.error(error), [error])
 
-  return (
-    <div className="mt-20 flex flex-col items-center justify-center">
-      <h1 className="mb-4 text-3xl">Something went wrong</h1>
-      <button className="font-semibold text-rose-500" onClick={() => reset()}>
-        Try again
-      </button>
-    </div>
-  )
+  return <EmptyState title="Uh Oh" subtitle="Something went wrong!" />
 }
 
-export default Error
+export default ErrorState
